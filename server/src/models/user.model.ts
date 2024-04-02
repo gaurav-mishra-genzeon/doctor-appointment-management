@@ -1,5 +1,3 @@
-
-
 export interface User {
     id: number;
     firstName: string;
@@ -10,6 +8,8 @@ export interface User {
     isAdmin: boolean;
     appointments: string[];
   }
+
+  
   
   export interface Doctor {
     id: number;

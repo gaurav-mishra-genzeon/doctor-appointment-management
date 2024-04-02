@@ -10,20 +10,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
 model User{
   id Int @id @default(autoincrement())
   firstName String
   lastName String
   email String @unique
   password String
-  isAdmin  Boolean   @default(false)
+  // refreshToken String[]
+  // isAdmin  Boolean   @default(false)
+  role UserRole  @default(USER)
   createdAt DateTime @default(now())
   appointments Appointment[]
+  userTokens UserToken[]
+  
 }
 
+model UserToken {
+  id         Int       @id @default(autoincrement())
+  token      String    @unique
+  createdAt  DateTime  @default(now()) 
+  // expiresAt  DateTime  @default(now() + interval '1 year') 
+  // Expires after 30 days
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+}
 
 model Doctor {
-  id           Int       @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   name         String
   speciality   String
   photoUrl     String  
